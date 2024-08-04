@@ -36,7 +36,7 @@ const PokemonDetail: React.FC = () => {
   if (!pokemonDetails) {
     return (
       <div className="w-8/12 flex justify-center items-center">
-        <div className="cursor-pointer" onClick={() => navigate("/")}>
+        <div className="cursor-pointer" onClick={() => () => navigate(-1)}>
           <FaArrowLeft className="mr-2" />
         </div>
         <h1>Pokemon no encontrado</h1>

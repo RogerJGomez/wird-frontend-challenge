@@ -21,8 +21,10 @@ const PokemonList: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchPokemon());
-  }, [dispatch]);
+    if (list.length === 0) {
+      dispatch(fetchPokemon());
+    }
+  }, [dispatch, list]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
