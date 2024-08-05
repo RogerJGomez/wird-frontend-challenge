@@ -15,6 +15,10 @@ import {
 const PokemonDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { list } = useSelector((state: RootState) => state.pokemonlist);
+  const { pokemonCombatList } = useSelector(
+    (state: RootState) => state.combatList
+  );
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -31,6 +35,17 @@ const PokemonDetail: React.FC = () => {
   const removePokemonFromCombat = (pokemon: Pokemon) => {
     dispatch(removePokemon(pokemon));
     dispatch(toggleSelectPokemon({ pokemon, selected: false }));
+  };
+
+  const handleAddOrRemovePokemon = (pokemon: Pokemon) => {
+    if (!pokemon.selected && pokemonCombatList.length === 6) {
+      return;
+    }
+    if (pokemon.selected) {
+      removePokemonFromCombat(pokemon);
+    } else {
+      addPokemonToCombat(pokemon);
+    }
   };
 
   if (!pokemonDetails) {
@@ -86,11 +101,7 @@ const PokemonDetail: React.FC = () => {
       </div>
       <div
         className="cursor-pointer flex items-center border border-gray rounded-md p-2 mx-3"
-        onClick={() =>
-          pokemonDetails.selected
-            ? removePokemonFromCombat(pokemonDetails)
-            : addPokemonToCombat(pokemonDetails)
-        }
+        onClick={() => handleAddOrRemovePokemon(pokemonDetails)}
       >
         {pokemonDetails.selected
           ? "Eliminar de la lista"
